@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>GCC TBC Typing Practice</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-<div class="container">
+<header>
 
-<h1>GCC TBC TYPING PRACTICE</h1>
+<h1>GCC TBC Typing Practice</h1>
 
-<div class="card">
+</header>
 
-<label>Select Language</label>
+<div class="main">
+
+<div class="box">
+
+<h2>Select Language</h2>
 
 <select id="language">
 
-<option>Marathi</option>
+<option value="marathi">मराठी</option>
 
-<option>English</option>
+<option value="hindi">हिंदी</option>
 
-<option>Hindi</option>
+<option value="english">English</option>
 
 </select>
 
-<label>Select Speed</label>
+<h2>Select Speed</h2>
 
 <select id="speed">
 
@@ -45,7 +47,7 @@
 
 </select>
 
-<button onclick="startExam()">
+<button id="startBtn">
 
 START EXAM
 
@@ -54,6 +56,12 @@ START EXAM
 </div>
 
 </div>
+
+<footer>
+
+© 2026 GCC TBC Typing Practice
+
+</footer>
 
 <script src="script.js"></script>
 
