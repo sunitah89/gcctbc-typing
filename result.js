@@ -1,15 +1,7 @@
 /*
     GCC TBC Typing Practice
-    Result Calculation Engine
-
-    Rules:
-    Total Marks       = 40
-    Passing Marks     = 16
-    Allowed Mistakes  = 24
-    25+ Mistakes      = FAIL
-    Exam Time         = 7 Minutes
+    Result Engine - Version 2
 */
-
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -31,40 +23,47 @@ document.addEventListener("DOMContentLoaded", function () {
             30
         );
 
+    const EXAM_MINUTES = 7;
 
-    /*
-        ==========================================
-        BASIC DATA
-        ==========================================
-    */
+    const TOTAL_MARKS = 40;
 
-    const totalTypedCharacters =
-        typedText.length;
+    const PASSING_MARKS = 16;
 
-    const questionCharacters =
-        questionText.length;
+    const MAX_ALLOWED_MISTAKES = 24;
 
 
     /*
-        ==========================================
-        CHARACTER-BY-CHARACTER COMPARISON
-        ==========================================
-
-        प्रत्येक character compare केला जातो.
-
-        चुकीचा character = 1 mistake
-
-        Typed text मध्ये जास्त characters असतील
-        तर ते देखील mistakes मध्ये मोजले जातील.
-
-        Question मध्ये राहिलेले characters
-        omitted म्हणून मोजले जातील.
+        ------------------------------------------
+        WORDS
+        ------------------------------------------
     */
 
+    function getWords(text) {
 
-    let wrongCharacters = 0;
+        return text
+            .trim()
+            .split(/\s+/)
+            .filter(word => word.length > 0);
+
+    }
+
+
+    const correctWords =
+        getWords(questionText);
+
+    const typedWords =
+        getWords(typedText);
+
+
+    /*
+        ------------------------------------------
+        CHARACTER COMPARISON
+        ------------------------------------------
+    */
 
     let correctCharacters = 0;
+
+    let wrongCharacters = 0;
 
     let addedCharacters = 0;
 
@@ -73,30 +72,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const maxLength =
         Math.max(
-            typedText.length,
-            questionText.length
+            questionText.length,
+            typedText.length
         );
 
 
     for (let i = 0; i < maxLength; i++) {
 
-        const typedChar =
-            typedText[i];
-
-        const correctChar =
+        const correct =
             questionText[i];
 
+        const typed =
+            typedText[i];
 
-        /*
-            दोन्ही characters आहेत
-        */
 
         if (
-            typedChar !== undefined &&
-            correctChar !== undefined
+            correct !== undefined &&
+            typed !== undefined
         ) {
 
-            if (typedChar === correctChar) {
+            if (correct === typed) {
 
                 correctCharacters++;
 
@@ -107,30 +102,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
         }
-
-
-        /*
-            Typed text मध्ये extra character
-        */
-
         else if (
-            typedChar !== undefined &&
-            correctChar === undefined
+            typed !== undefined
         ) {
 
             addedCharacters++;
 
         }
-
-
-        /*
-            Question मधील character
-            विद्यार्थ्याने type केला नाही
-        */
-
         else if (
-            typedChar === undefined &&
-            correctChar !== undefined
+            correct !== undefined
         ) {
 
             omittedCharacters++;
@@ -141,33 +121,132 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /*
-        ==========================================
-        TOTAL MISTAKES
-        ==========================================
+        ------------------------------------------
+        WORD ANALYSIS
+        ------------------------------------------
     */
 
+    let wrongWords = 0;
 
-    const totalMistakes =
-        wrongCharacters +
-        addedCharacters +
-        omittedCharacters;
+    let omittedWords = 0;
+
+    let addedWords = 0;
+
+    let incompleteWords = 0;
+
+
+    const wordCount =
+        Math.max(
+            correctWords.length,
+            typedWords.length
+        );
+
+
+    for (let i = 0; i < wordCount; i++) {
+
+        const correct =
+            correctWords[i];
+
+        const typed =
+            typedWords[i];
+
+
+        /*
+            Correct word exists + typed word exists
+        */
+
+        if (
+            correct !== undefined &&
+            typed !== undefined
+        ) {
+
+            if (correct === typed) {
+
+                continue;
+
+            }
+
+
+            /*
+                Typed word is shorter than
+                answer word = incomplete
+            */
+
+            if (
+                typed.length < correct.length &&
+                correct.startsWith(typed)
+            ) {
+
+                incompleteWords++;
+
+            }
+            else {
+
+                wrongWords++;
+
+            }
+
+        }
+
+
+        /*
+            Answer word exists but
+            student did not type it
+        */
+
+        else if (
+            correct !== undefined &&
+            typed === undefined
+        ) {
+
+            omittedWords++;
+
+        }
+
+
+        /*
+            Student typed extra word
+        */
+
+        else if (
+            typed !== undefined &&
+            correct === undefined
+        ) {
+
+            addedWords++;
+
+        }
+
+    }
 
 
     /*
-        ==========================================
-        ACCURACY
-        ==========================================
+        ------------------------------------------
+        TOTAL MISTAKES
+        ------------------------------------------
     */
 
+    const totalMistakes =
+        wrongWords +
+        omittedWords +
+        addedWords +
+        incompleteWords;
+
+
+    /*
+        ------------------------------------------
+        ACCURACY
+        ------------------------------------------
+    */
 
     let accuracy = 0;
 
 
-    if (totalTypedCharacters > 0) {
+    if (typedText.length > 0) {
 
         accuracy =
             (correctCharacters /
-            totalTypedCharacters) * 100;
+            typedText.length) * 100;
 
     }
 
@@ -180,205 +259,142 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /*
-        ==========================================
+        ------------------------------------------
         GROSS SPEED
-        ==========================================
-
-        7 minutes examination.
-
-        Standard typing calculation:
-
-        Characters / 5 / minutes
+        ------------------------------------------
     */
 
-
-    const examMinutes = 7;
-
-
     const grossSpeed =
-        totalTypedCharacters /
+        typedText.length /
         5 /
-        examMinutes;
+        EXAM_MINUTES;
 
 
     /*
-        ==========================================
+        ------------------------------------------
         NET SPEED
-        ==========================================
+        ------------------------------------------
     */
-
 
     const netSpeed =
         Math.max(
             0,
             grossSpeed -
-            (totalMistakes / examMinutes)
+            (totalMistakes / EXAM_MINUTES)
         );
 
 
     /*
-        ==========================================
+        ------------------------------------------
         MARKS
-        ==========================================
-
-        40 marks total.
-
-        16 marks passing.
-
-        Mistakes <= 24:
-            PASS
-
-        Mistakes >= 25:
-            FAIL
-
-        Marks are calculated proportionally
-        from accuracy.
-
-        Minimum passing requirement is also
-        controlled by the mistake rule.
+        ------------------------------------------
     */
 
-
     let marks =
-
-        (accuracy / 100) * 40;
+        (accuracy / 100) *
+        TOTAL_MARKS;
 
 
     marks =
         Math.max(
             0,
-            Math.min(40, marks)
+            Math.min(
+                TOTAL_MARKS,
+                marks
+            )
         );
 
 
     /*
-        ==========================================
+        ------------------------------------------
         PASS / FAIL
-        ==========================================
+        ------------------------------------------
     */
 
-
-    let passed = false;
-
-
-    if (
-        totalMistakes <= 24 &&
-        marks >= 16
-    ) {
-
-        passed = true;
-
-    }
+    const passed =
+        totalMistakes <= MAX_ALLOWED_MISTAKES &&
+        marks >= PASSING_MARKS;
 
 
     /*
-        ==========================================
-        ROUND VALUES
-        ==========================================
+        ------------------------------------------
+        DISPLAY
+        ------------------------------------------
     */
 
+    setText(
+        "resultLanguage",
+        language
+    );
 
-    const displayGrossSpeed =
-        grossSpeed.toFixed(2);
+    setText(
+        "resultSpeed",
+        speed + " WPM"
+    );
 
-    const displayNetSpeed =
-        netSpeed.toFixed(2);
+    setText(
+        "grossSpeed",
+        grossSpeed.toFixed(2) + " WPM"
+    );
 
-    const displayAccuracy =
-        accuracy.toFixed(2);
+    setText(
+        "netSpeed",
+        netSpeed.toFixed(2) + " WPM"
+    );
 
-    const displayMarks =
-        marks.toFixed(2);
+    setText(
+        "accuracy",
+        accuracy.toFixed(2) + "%"
+    );
+
+    setText(
+        "correctCharacters",
+        correctCharacters
+    );
+
+    setText(
+        "wrongWords",
+        wrongWords
+    );
+
+    setText(
+        "omittedWords",
+        omittedWords
+    );
+
+    setText(
+        "addedWords",
+        addedWords
+    );
+
+    setText(
+        "incompleteWords",
+        incompleteWords
+    );
+
+    setText(
+        "totalMistakes",
+        totalMistakes
+    );
+
+    setText(
+        "marks",
+        marks.toFixed(2) +
+        " / " +
+        TOTAL_MARKS
+    );
 
 
     /*
-        ==========================================
-        DISPLAY RESULT
-        ==========================================
+        ------------------------------------------
+        RESULT STATUS
+        ------------------------------------------
     */
-
 
     const resultStatus =
         document.getElementById(
             "resultStatus"
         );
-
-
-    const totalMistakesElement =
-        document.getElementById(
-            "totalMistakes"
-        );
-
-
-    const marksElement =
-        document.getElementById(
-            "marks"
-        );
-
-
-    const grossSpeedElement =
-        document.getElementById(
-            "grossSpeed"
-        );
-
-
-    const netSpeedElement =
-        document.getElementById(
-            "netSpeed"
-        );
-
-
-    const accuracyElement =
-        document.getElementById(
-            "accuracy"
-        );
-
-
-    if (grossSpeedElement) {
-
-        grossSpeedElement.textContent =
-            displayGrossSpeed + " WPM";
-
-    }
-
-
-    if (netSpeedElement) {
-
-        netSpeedElement.textContent =
-            displayNetSpeed + " WPM";
-
-    }
-
-
-    if (accuracyElement) {
-
-        accuracyElement.textContent =
-            displayAccuracy + "%";
-
-    }
-
-
-    if (totalMistakesElement) {
-
-        totalMistakesElement.textContent =
-            totalMistakes;
-
-    }
-
-
-    if (marksElement) {
-
-        marksElement.textContent =
-            displayMarks + " / 40";
-
-    }
-
-
-    /*
-        ==========================================
-        PASS / FAIL DISPLAY
-        ==========================================
-    */
 
 
     if (resultStatus) {
@@ -391,7 +407,8 @@ document.addEventListener("DOMContentLoaded", function () {
             resultStatus.className =
                 "result-status pass";
 
-        } else {
+        }
+        else {
 
             resultStatus.textContent =
                 "FAIL";
@@ -405,59 +422,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /*
-        ==========================================
+        ------------------------------------------
         SAVE RESULT
-        ==========================================
+        ------------------------------------------
     */
-
 
     localStorage.setItem(
         "grossSpeed",
-        displayGrossSpeed
+        grossSpeed.toFixed(2)
     );
-
 
     localStorage.setItem(
         "netSpeed",
-        displayNetSpeed
+        netSpeed.toFixed(2)
     );
-
 
     localStorage.setItem(
         "accuracy",
-        displayAccuracy
+        accuracy.toFixed(2)
     );
-
 
     localStorage.setItem(
-        "wrongCharacters",
-        wrongCharacters
+        "correctCharacters",
+        correctCharacters
     );
-
 
     localStorage.setItem(
-        "addedCharacters",
-        addedCharacters
+        "wrongWords",
+        wrongWords
     );
-
 
     localStorage.setItem(
-        "omittedCharacters",
-        omittedCharacters
+        "omittedWords",
+        omittedWords
     );
 
+    localStorage.setItem(
+        "addedWords",
+        addedWords
+    );
+
+    localStorage.setItem(
+        "incompleteWords",
+        incompleteWords
+    );
 
     localStorage.setItem(
         "totalMistakes",
         totalMistakes
     );
 
-
     localStorage.setItem(
         "marks",
-        displayMarks
+        marks.toFixed(2)
     );
-
 
     localStorage.setItem(
         "examResult",
@@ -466,35 +484,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /*
-        ==========================================
-        CONSOLE INFORMATION
-        ==========================================
+        ------------------------------------------
+        HELPER
+        ------------------------------------------
     */
 
-    console.log("========== GCC TBC RESULT ==========");
+    function setText(id, value) {
 
-    console.log("Language:", language);
+        const element =
+            document.getElementById(id);
 
-    console.log("Speed:", speed);
+        if (element) {
 
-    console.log("Correct Characters:", correctCharacters);
+            element.textContent = value;
 
-    console.log("Wrong Characters:", wrongCharacters);
+        }
 
-    console.log("Added Characters:", addedCharacters);
-
-    console.log("Omitted Characters:", omittedCharacters);
-
-    console.log("Total Mistakes:", totalMistakes);
-
-    console.log("Accuracy:", displayAccuracy + "%");
-
-    console.log("Gross Speed:", displayGrossSpeed);
-
-    console.log("Net Speed:", displayNetSpeed);
-
-    console.log("Marks:", displayMarks + "/40");
-
-    console.log("Result:", passed ? "PASS" : "FAIL");
+    }
 
 });
