@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GCC TBC Typing Exam</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Exam Page */
+
+        body {
+            margin: 0;
+            background: #e9edf2;
+            color: #222;
+        }
+
+        .exam-header {
+            background: #0b5cab;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .exam-title {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .exam-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .info-box {
+            background: white;
+            color: #222;
+            padding: 7px 14px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .timer {
+            background: #b30000;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 20px;
+            font-weight: bold;
+            min-width: 75px;
+            text-align: center;
+        }
+
+        .exam-container {
+            padding: 15px;
+        }
+
+        .exam-panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            height: calc(100vh - 155px);
+            min-height: 450px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #aeb7c2;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .panel-title {
+            background: #dce6f1;
+            border-bottom: 1px solid #aeb7c2;
+            padding: 9px 12px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .paragraph-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            line-height: 1.8;
+            font-size: 18px;
+            white-space: pre-wrap;
+            user-select: none;
+        }
+
+        .typing-area {
+            flex: 1;
+            width: 100%;
+            border: 0;
+            outline: none;
+            resize: none;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #111;
+            background: #fff;
+            spellcheck: false;
+        }
+
+        .typing-area:focus {
+            outline: none;
+        }
+
+        .bottom-bar {
+            background: white;
+            border-top: 1px solid #aeb7c2;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tools {
+            display: flex;
+            gap: 6px;
+        }
+
+        .tool-button {
+            border: 1px solid #999;
+            background: #f4f4f4;
+            padding: 7px 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .tool-button:hover {
+            background: #ddd;
+        }
+
+        .status {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 800px) {
+
+            .exam-panels {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .panel {
+                height: 450px;
+            }
+
+            .exam-header {
+                justify-content: center;
+            }
+
+            .exam-title {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="exam-header">
+
+    <div class="exam-title">
+        GCC TBC TYPING EXAM
+    </div>
+
+    <div class="exam-info">
+
+        <div class="info-box">
+            Language:
+            <span id="languageDisplay">---</span>
+        </div>
+
+        <div class="info-box">
+            Speed:
+            <span id="speedDisplay">---</span> WPM
+        </div>
+
+        <div class="timer" id="timer">
+            07:00
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- MAIN EXAM -->
+
+<main class="exam-container">
+
+    <div class="exam-panels">
+
+        <!-- LEFT SIDE -->
+
+        <section class="panel">
+
+            <div class="panel-title">
+                प्रश्न / Paragraph
+            </div>
+
+            <div
+                id="paragraph"
+                class="paragraph-area"
+                oncopy="return false"
+                oncut="return false"
+                onpaste="return false"
+                oncontextmenu="return false"
+            >
+                परीक्षा सुरू होत आहे...
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+
+        <section class="panel">
+
+            <div class="panel-title">
+                Typing Area
+            </div>
+
+            <textarea
+                id="typingArea"
+                class="typing-area"
+                spellcheck="false"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                oncopy="return false"
+                oncut="return false"
+                onpaste="return false"
+                oncontextmenu="return false"
+            ></textarea>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- BOTTOM TOOLBAR -->
+
+<div class="bottom-bar">
+
+    <div class="tools">
+
+        <button
+            class="tool-button"
+            type="button"
+            onclick="changeFontSize(1)"
+        >
+            Zoom +
+        </button>
+
+        <button
+            class="tool-button"
+            type="button"
+            onclick="changeFontSize(-1)"
+        >
+            Zoom -
+        </button>
+
+        <button
+            class="tool-button"
+            type="button"
+            onclick="goFullScreen()"
+        >
+            Full Screen
+        </button>
+
+    </div>
+
+    <div class="status">
+        Backspace: Allowed
+    </div>
+
+</div>
+
+
+<script>
+
+    /* -----------------------------------------
+       GET SETTINGS FROM HOME PAGE
+    ----------------------------------------- */
+
+    const language =
+        localStorage.getItem("language") || "marathi";
+
+    const speed =
+        localStorage.getItem("speed") || "30";
+
+
+    document.getElementById("languageDisplay").textContent =
+        language;
+
+    document.getElementById("speedDisplay").textContent =
+        speed;
+
+
+    /* -----------------------------------------
+       SAMPLE PARAGRAPHS
+       पुढे हे JSON FILE मधून घेऊ
+    ----------------------------------------- */
+
+    const paragraphs = {
+
+        marathi:
+`भारत हा विविधतेने नटलेला सुंदर देश आहे. आपल्या देशात अनेक भाषा, संस्कृती, परंपरा आणि सण साजरे केले जातात. शिक्षण, तंत्रज्ञान आणि उद्योग या क्षेत्रांमध्ये भारताने मोठी प्रगती केली आहे. प्रत्येक नागरिकाने देशाच्या विकासामध्ये आपले योगदान देणे आवश्यक आहे.`,
+
+        english:
+`India is a beautiful country known for its diversity, culture and traditions. People belonging to different communities live together with mutual respect. Education, technology and industry have developed rapidly in recent years. Every citizen should contribute positively to the progress of the country.`,
+
+        hindi:
+`भारत विविधताओं से भरा हुआ एक सुंदर देश है। हमारे देश में अनेक भाषाएं, संस्कृतियां, परंपराएं और त्योहार मनाए जाते हैं। शिक्षा, तकनीक और उद्योग के क्षेत्र में भारत ने बहुत प्रगति की है। प्रत्येक नागरिक को देश के विकास में अपना योगदान देना चाहिए।`
+
+    };
+
+
+    const paragraph =
+        paragraphs[language] || paragraphs.marathi;
+
+
+    document.getElementById("paragraph").textContent =
+        paragraph;
+
+
+    /* -----------------------------------------
+       TYPING AREA
+    ----------------------------------------- */
+
+    const typingArea =
+        document.getElementById("typingArea");
+
+
+    typingArea.focus();
+
+
+    /* -----------------------------------------
+       DISABLE COPY / PASTE / CUT
+    ----------------------------------------- */
+
+    ["copy", "paste", "cut"].forEach(function(eventName) {
+
+        typingArea.addEventListener(eventName, function(event) {
+
+            event.preventDefault();
+
+        });
+
+    });
+
+
+    /* -----------------------------------------
+       DISABLE SOME SHORTCUTS
+       Backspace is NOT disabled.
+    ----------------------------------------- */
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.ctrlKey || event.metaKey) {
+
+            const key =
+                event.key.toLowerCase();
+
+            if (
+                key === "c" ||
+                key === "v" ||
+                key === "x" ||
+                key === "a" ||
+                key === "p" ||
+                key === "s"
+            ) {
+
+                event.preventDefault();
+
+            }
+
+        }
+
+    });
+
+
+    /* -----------------------------------------
+       RIGHT CLICK
+    ----------------------------------------- */
+
+    document.addEventListener("contextmenu", function(event) {
+
+        event.preventDefault();
+
+    });
+
+
+    /* -----------------------------------------
+       FONT SIZE / ZOOM
+    ----------------------------------------- */
+
+    let currentFontSize = 18;
+
+
+    function changeFontSize(amount) {
+
+        currentFontSize += amount;
+
+
+        if (currentFontSize < 12) {
+            currentFontSize = 12;
+        }
+
+
+        if (currentFontSize > 32) {
+            currentFontSize = 32;
+        }
+
+
+        document.getElementById("paragraph").style.fontSize =
+            currentFontSize + "px";
+
+        document.getElementById("typingArea").style.fontSize =
+            currentFontSize + "px";
+
+    }
+
+
+    /* -----------------------------------------
+       FULL SCREEN
+    ----------------------------------------- */
+
+    function goFullScreen() {
+
+        const element = document.documentElement;
+
+
+        if (!document.fullscreenElement) {
+
+            if (element.requestFullscreen) {
+
+                element.requestFullscreen();
+
+            }
+
+        } else {
+
+            if (document.exitFullscreen) {
+
+                document.exitFullscreen();
+
+            }
+
+        }
+
+    }
+
+
+    /* -----------------------------------------
+       TIMER
+       7 MINUTES
+    ----------------------------------------- */
+
+    let totalSeconds = 7 * 60;
+
+    let timerRunning = true;
+
+
+    const timerElement =
+        document.getElementById("timer");
+
+
+    const timerInterval =
+        setInterval(function() {
+
+            if (!timerRunning) {
+                return;
+            }
+
+
+            totalSeconds--;
+
+
+            let minutes =
+                Math.floor(totalSeconds / 60);
+
+            let seconds =
+                totalSeconds % 60;
+
+
+            minutes =
+                String(minutes).padStart(2, "0");
+
+            seconds =
+                String(seconds).padStart(2, "0");
+
+
+            timerElement.textContent =
+                minutes + ":" + seconds;
+
+
+            if (totalSeconds <= 0) {
+
+                timerRunning = false;
+
+                clearInterval(timerInterval);
+
+                autoSubmitExam();
+
+            }
+
+        }, 1000);
+
+
+    /* -----------------------------------------
+       AUTO SUBMIT
+       पुढे Result Engine जोडू
+    ----------------------------------------- */
+
+    function autoSubmitExam() {
+
+        typingArea.disabled = true;
+
+
+        alert(
+            "7 मिनिटांचा वेळ पूर्ण झाला आहे. परीक्षा Submit झाली आहे."
+        );
+
+
+        /*
+          पुढील टप्प्यात येथे:
+          - Mistake Calculation
+          - Gross Speed
+          - Net Speed
+          - Accuracy
+          - Marks
+          - PASS / FAIL
+          - Result Page
+
+          जोडले जाईल.
+        */
+
+    }
+
+</script>
+
+</body>
+</html>
