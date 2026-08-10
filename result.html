@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GCC TBC Result</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            padding: 0;
+
+            background: #eef2f6;
+
+            font-family: Arial, "Noto Sans Devanagari", sans-serif;
+
+            color: #222;
+
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            background: #0b5cab;
+
+            color: white;
+
+            padding: 18px;
+
+            text-align: center;
+
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+
+        }
+
+
+        .header p {
+
+            margin: 6px 0 0;
+
+            font-size: 14px;
+
+        }
+
+
+        /* RESULT CARD */
+
+        .result-container {
+
+            max-width: 800px;
+
+            margin: 35px auto;
+
+            padding: 15px;
+
+        }
+
+
+        .result-card {
+
+            background: white;
+
+            border-radius: 8px;
+
+            padding: 30px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,.12);
+
+        }
+
+
+        .result-title {
+
+            text-align: center;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 25px;
+
+            color: #0b5cab;
+
+        }
+
+
+        /* PASS / FAIL */
+
+        .result-status {
+
+            text-align: center;
+
+            padding: 18px;
+
+            border-radius: 6px;
+
+            margin-bottom: 25px;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+        }
+
+
+        .pass {
+
+            background: #dff5e5;
+
+            color: #08752a;
+
+            border: 1px solid #8bd19d;
+
+        }
+
+
+        .fail {
+
+            background: #ffe2e2;
+
+            color: #a50000;
+
+            border: 1px solid #e49b9b;
+
+        }
+
+
+        /* INFORMATION */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+        }
+
+
+        .info-item {
+
+            border: 1px solid #d1d7dd;
+
+            padding: 15px;
+
+            border-radius: 5px;
+
+            background: #fafafa;
+
+        }
+
+
+        .info-label {
+
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .info-value {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-top: 30px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .btn {
+
+            border: none;
+
+            padding: 12px 22px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+
+        .btn-primary {
+
+            background: #0b5cab;
+
+            color: white;
+
+        }
+
+
+        .btn-secondary {
+
+            background: #555;
+
+            color: white;
+
+        }
+
+
+        .btn:hover {
+
+            opacity: .9;
+
+        }
+
+
+        /* RULES */
+
+        .rules {
+
+            margin-top: 25px;
+
+            background: #f5f7f9;
+
+            border: 1px solid #d7dce1;
+
+            padding: 15px;
+
+            border-radius: 5px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .rules h3 {
+
+            margin-top: 0;
+
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .info-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .result-card {
+
+                padding: 20px;
+
+            }
+
+
+            .header h1 {
+
+                font-size: 22px;
+
+            }
+
+        }
+
+
+        @media print {
+
+            .buttons {
+
+                display: none;
+
+            }
+
+
+            body {
+
+                background: white;
+
+            }
+
+
+            .result-card {
+
+                box-shadow: none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <h1>GCC TBC Typing Practice</h1>
+
+        <p>Typing Examination Result</p>
+
+    </header>
+
+
+
+    <!-- RESULT -->
+
+    <main class="result-container">
+
+
+        <div class="result-card">
+
+
+            <div class="result-title">
+
+                Examination Result
+
+            </div>
+
+
+            <!-- PASS / FAIL -->
+
+            <div
+
+                id="resultStatus"
+
+                class="result-status"
+
+            >
+
+                Result Calculating...
+
+            </div>
+
+
+
+            <!-- RESULT INFORMATION -->
+
+            <div class="info-grid">
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Language
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="resultLanguage"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Speed
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="resultSpeed"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Gross Speed
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="grossSpeed"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Net Speed
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="netSpeed"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Accuracy
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="accuracy"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Total Characters
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="totalCharacters"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Total Mistakes
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="totalMistakes"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-label">
+
+                        Marks
+
+                    </div>
+
+                    <div
+
+                        class="info-value"
+
+                        id="marks"
+
+                    >
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RULES -->
+
+            <div class="rules">
+
+                <h3>Examination Rules</h3>
+
+                <div>
+
+                    एकूण गुण: <strong>40</strong>
+
+                </div>
+
+                <div>
+
+                    पासिंग गुण: <strong>16</strong>
+
+                </div>
+
+                <div>
+
+                    24 पर्यंत चुका: <strong>मान्य</strong>
+
+                </div>
+
+                <div>
+
+                    25 किंवा अधिक चुका:
+
+                    <strong>अनुत्तीर्ण</strong>
+
+                </div>
+
+                <div>
+
+                    परीक्षा वेळ: <strong>7 मिनिटे</strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+
+                <button
+
+                    class="btn btn-primary"
+
+                    onclick="printResult()"
+
+                >
+
+                    Print Result
+
+                </button>
+
+
+                <button
+
+                    class="btn btn-secondary"
+
+                    onclick="goHome()"
+
+                >
+
+                    Back to Home
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <script>
+
+        /* ====================================
+           RESULT PAGE BASIC DATA
+        ==================================== */
+
+
+        const language =
+
+            localStorage.getItem("examLanguage") ||
+
+            localStorage.getItem("language") ||
+
+            "marathi";
+
+
+        const speed =
+
+            localStorage.getItem("examSpeed") ||
+
+            localStorage.getItem("speed") ||
+
+            "30";
+
+
+        const typedText =
+
+            localStorage.getItem("typedText") ||
+
+            "";
+
+
+        const questionText =
+
+            localStorage.getItem("questionText") ||
+
+            "";
+
+
+        document.getElementById(
+
+            "resultLanguage"
+
+        ).textContent = language;
+
+
+        document.getElementById(
+
+            "resultSpeed"
+
+        ).textContent = speed + " WPM";
+
+
+        document.getElementById(
+
+            "totalCharacters"
+
+        ).textContent = typedText.length;
+
+
+        /*
+            आत्ता basic placeholder.
+
+            पुढील result.js मध्ये:
+
+            Gross Speed
+            Net Speed
+            Accuracy
+            Mistakes
+            Marks
+            Pass / Fail
+
+            अचूकपणे calculate केले जातील.
+        */
+
+        document.getElementById(
+
+            "grossSpeed"
+
+        ).textContent = "Calculating...";
+
+
+        document.getElementById(
+
+            "netSpeed"
+
+        ).textContent = "Calculating...";
+
+
+        document.getElementById(
+
+            "accuracy"
+
+        ).textContent = "Calculating...";
+
+
+        document.getElementById(
+
+            "totalMistakes"
+
+        ).textContent = "Calculating...";
+
+
+        document.getElementById(
+
+            "marks"
+
+        ).textContent = "Calculating...";
+
+
+        document.getElementById(
+
+            "resultStatus"
+
+        ).textContent = "Result Engine लवकरच जोडला जाईल";
+
+
+        /* PRINT */
+
+        function printResult() {
+
+            window.print();
+
+        }
+
+
+        /* HOME */
+
+        function goHome() {
+
+            window.location.href = "index.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
