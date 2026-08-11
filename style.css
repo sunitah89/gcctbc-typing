@@ -81,3 +81,13 @@ footer{
     padding:12px;
     font-size:14px;
 }
+.submit-button {
+    background: #0b5cab;
+    color: white;
+    border-color: #0b5cab;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background: #084b8c;
+}
