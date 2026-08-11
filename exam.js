@@ -355,6 +355,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    /*
+    MANUAL SUBMIT BUTTON
+*/
+
+window.submitExam = function () {
+
+    if (examFinished) {
+        return;
+    }
+
+    const confirmSubmit =
+        confirm(
+            "तुम्हाला परीक्षा Submit करायची आहे का?"
+        );
+
+    if (!confirmSubmit) {
+        return;
+    }
+
+    finishExam();
+
+};
 
     /* -----------------------------------------
        PREVENT ACCIDENTAL PAGE LEAVE
