@@ -3,386 +3,708 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>GCC TBC Typing Exam</title>
+<title>GCC-TBC Typing Examination</title>
 
-    <style>
 
-        * {
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            margin: 0;
-            background: #e7ebef;
-            color: #222;
-            font-family: Arial, "Noto Sans Devanagari", sans-serif;
-            overflow: hidden;
-        }
+/* =====================================================
+   BASIC
+===================================================== */
 
+* {
+    box-sizing: border-box;
+}
 
-        /* ==============================
-           TOP HEADER
-        ============================== */
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, "Noto Sans Devanagari", sans-serif;
+    background: #e5e7eb;
+    color: #222;
+}
 
-        .exam-header {
 
-            height: 62px;
+/* =====================================================
+   HEADER
+===================================================== */
 
-            background: #0b5cab;
+.exam-header {
 
-            color: white;
+    height: 58px;
 
-            display: flex;
+    background: #0b5cab;
 
-            align-items: center;
+    color: white;
 
-            justify-content: space-between;
+    display: flex;
 
-            padding: 8px 15px;
+    align-items: center;
 
-            gap: 15px;
+    justify-content: space-between;
 
-        }
+    padding: 7px 14px;
 
+}
 
-        .exam-title {
 
-            font-size: 21px;
+.exam-title {
 
-            font-weight: bold;
+    font-size: 20px;
 
-            white-space: nowrap;
+    font-weight: bold;
 
-        }
+}
 
 
-        .exam-info {
+.exam-info {
 
-            display: flex;
+    display: flex;
 
-            align-items: center;
+    align-items: center;
 
-            gap: 10px;
+    gap: 8px;
 
-        }
+}
 
 
-        .info-box {
+.info-box {
 
-            background: white;
+    background: white;
 
-            color: #222;
+    color: #222;
 
-            padding: 8px 12px;
+    padding: 7px 10px;
 
-            border-radius: 3px;
+    border-radius: 3px;
 
-            font-size: 14px;
+    font-size: 13px;
 
-            font-weight: bold;
+    font-weight: bold;
 
-        }
+}
 
 
-        .timer {
+.timer {
 
-            background: #b30000;
+    background: #a80000;
 
-            color: white;
+    color: white;
 
-            min-width: 88px;
+    min-width: 88px;
 
-            padding: 8px 12px;
+    padding: 7px 10px;
 
-            text-align: center;
+    text-align: center;
 
-            border-radius: 3px;
+    border-radius: 3px;
 
-            font-size: 20px;
+    font-family: monospace;
 
-            font-weight: bold;
+    font-size: 19px;
 
-            font-family: monospace;
+    font-weight: bold;
 
-        }
+}
 
 
-        /* ==============================
-           EXAM AREA
-        ============================== */
+/* =====================================================
+   MAIN
+===================================================== */
 
-        .exam-container {
+.exam-container {
 
-            height: calc(100vh - 112px);
+    height: calc(100vh - 108px);
 
-            padding: 10px;
+    padding: 7px;
 
-        }
+}
 
 
-        .exam-panels {
+.exam-panels {
 
-            display: grid;
+    display: grid;
 
-            grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 
-            gap: 10px;
+    gap: 7px;
 
-            height: 100%;
+    height: 100%;
 
-        }
+}
 
 
-        .panel {
+/* =====================================================
+   PANEL
+===================================================== */
 
-            background: white;
+.panel {
 
-            border: 1px solid #9da7b0;
+    background: #dfe3e8;
 
-            display: flex;
+    border: 1px solid #9da4ac;
 
-            flex-direction: column;
+    display: flex;
 
-            min-width: 0;
+    flex-direction: column;
 
-            overflow: hidden;
+    min-width: 0;
 
-        }
+    overflow: hidden;
 
+}
 
-        .panel-title {
 
-            height: 40px;
+.panel-title {
 
-            background: #d7e2ed;
+    height: 34px;
 
-            border-bottom: 1px solid #aeb7c2;
+    background: #d5dde6;
 
-            display: flex;
+    border-bottom: 1px solid #aab2bb;
 
-            align-items: center;
+    display: flex;
 
-            padding: 0 12px;
+    align-items: center;
 
-            font-size: 16px;
+    padding: 0 10px;
 
-            font-weight: bold;
+    font-size: 14px;
 
-        }
+    font-weight: bold;
 
+}
 
-        /* ==============================
-           PARAGRAPH
-        ============================== */
 
-        .paragraph-area {
+/* =====================================================
+   WORD WORKSPACE
+===================================================== */
 
-            flex: 1;
+.word-workspace {
 
-            overflow-y: auto;
+    position: relative;
 
-            padding: 22px;
+    flex: 1;
 
-            font-size: 18px;
+    min-height: 0;
 
-            line-height: 1.8;
+    background: #cfd3d8;
 
-            white-space: pre-wrap;
+    overflow: hidden;
 
-            user-select: none;
+}
 
-            cursor: default;
 
-        }
+/* =====================================================
+   HORIZONTAL RULER
+===================================================== */
 
+.horizontal-ruler {
 
-        /* ==============================
-           TYPING AREA
-        ============================== */
+    position: absolute;
 
-        .typing-area {
+    top: 0;
 
-            flex: 1;
+    left: 38px;
 
-            width: 100%;
+    right: 0;
 
-            resize: none;
+    height: 27px;
 
-            border: 0;
+    background-color: #f5f5f5;
 
-            outline: none;
+    border-bottom: 1px solid #999;
 
-            padding: 22px;
+    z-index: 10;
 
-            font-family: Arial, "Noto Sans Devanagari", sans-serif;
+    overflow: hidden;
 
-            font-size: 18px;
+    pointer-events: none;
 
-            line-height: 1.8;
+    background-image:
 
-            color: #111;
+        repeating-linear-gradient(
+            to right,
+            transparent 0px,
+            transparent 9px,
+            #aaa 9px,
+            #aaa 10px,
+            transparent 10px,
+            transparent 47px,
+            #555 47px,
+            #555 48px
+        );
 
-            background: #fff;
+}
 
-            spellcheck: false;
 
-        }
+.horizontal-ruler span {
 
+    position: absolute;
 
-        .typing-area:focus {
+    top: 2px;
 
-            outline: none;
+    font-size: 9px;
 
-        }
+    color: #444;
 
+}
 
-        /* ==============================
-           BOTTOM BAR
-        ============================== */
 
-        .bottom-bar {
+/* =====================================================
+   VERTICAL RULER
+===================================================== */
 
-            height: 50px;
+.vertical-ruler {
 
-            background: #f7f7f7;
+    position: absolute;
 
-            border-top: 1px solid #aeb7c2;
+    left: 0;
 
-            display: flex;
+    top: 27px;
 
-            align-items: center;
+    bottom: 0;
 
-            justify-content: space-between;
+    width: 38px;
 
-            padding: 6px 12px;
+    background-color: #f5f5f5;
 
-        }
+    border-right: 1px solid #999;
 
+    z-index: 10;
 
-        .tools {
+    overflow: hidden;
 
-            display: flex;
+    pointer-events: none;
 
-            gap: 6px;
+    background-image:
 
-        }
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 9px,
+            #aaa 9px,
+            #aaa 10px,
+            transparent 10px,
+            transparent 23px,
+            #555 23px,
+            #555 24px
+        );
 
+}
 
-        .tool-button {
 
-            background: #fff;
+.vertical-ruler span {
 
-            border: 1px solid #888;
+    position: absolute;
 
-            border-radius: 3px;
+    left: 4px;
 
-            padding: 7px 13px;
+    font-size: 9px;
 
-            cursor: pointer;
+    color: #444;
 
-            font-size: 14px;
+}
 
-        }
 
+/* =====================================================
+   WORD PAGE
+===================================================== */
 
-        .tool-button:hover {
+.word-page {
 
-            background: #e5e5e5;
+    position: absolute;
 
-        }
+    top: 27px;
 
+    left: 38px;
 
-        .status {
+    right: 0;
 
-            font-size: 13px;
+    bottom: 0;
 
-            color: #555;
+    overflow: auto;
 
-        }
+    padding: 28px;
 
+}
 
-        /* ==============================
-           MOBILE
-        ============================== */
 
-        @media (max-width: 800px) {
+/* =====================================================
+   QUESTION PAGE
+===================================================== */
 
-            body {
+.question-page {
 
-                overflow: auto;
+    width: 8.27in;
 
-            }
+    min-height: 11.69in;
 
+    background: white;
 
-            .exam-header {
+    margin: 0 auto;
 
-                height: auto;
+    padding:
 
-                flex-direction: column;
+        1in
+        1in
+        1in
+        1in;
 
-                padding: 10px;
+    box-shadow:
 
-            }
+        0 1px 7px rgba(0,0,0,.20);
 
+}
 
-            .exam-title {
 
-                font-size: 18px;
+.question-text {
 
-            }
+    font-family:
 
+        "Nirmala UI",
+        "Mangal",
+        Arial,
+        sans-serif;
 
-            .exam-info {
+    font-size: 16px;
 
-                width: 100%;
+    line-height: 1.8;
 
-                justify-content: center;
+    white-space: pre-wrap;
 
-                flex-wrap: wrap;
+    user-select: none;
 
-            }
+    cursor: default;
 
+}
 
-            .exam-container {
 
-                height: auto;
+/* =====================================================
+   TYPING PAGE
+===================================================== */
 
-            }
+.typing-page {
 
+    width: 8.27in;
 
-            .exam-panels {
+    min-height: 11.69in;
 
-                grid-template-columns: 1fr;
+    background: white;
 
-                height: auto;
+    margin: 0 auto;
 
-            }
+    padding:
 
+        1in
+        1in
+        1in
+        1in;
 
-            .panel {
+    box-shadow:
 
-                height: 450px;
+        0 1px 7px rgba(0,0,0,.20);
 
-            }
+}
 
 
-            .bottom-bar {
+/* =====================================================
+   TYPING AREA
+===================================================== */
 
-                height: auto;
+.typing-area {
 
-                gap: 8px;
+    width: 100%;
 
-                flex-wrap: wrap;
+    min-height: 9.69in;
 
-            }
+    border: none;
 
-        }
+    outline: none;
 
-    </style>
+    resize: none;
+
+    background: transparent;
+
+    font-family:
+
+        "Nirmala UI",
+        "Mangal",
+        Arial,
+        sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+    color: #111;
+
+    white-space: pre-wrap;
+
+    overflow: hidden;
+
+    tab-size: 5.33;
+
+    -moz-tab-size: 5.33;
+
+}
+
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.word-toolbar {
+
+    height: 42px;
+
+    background: #f3f3f3;
+
+    border-bottom: 1px solid #aeb5bc;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    padding: 4px 7px;
+
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+}
+
+
+/* SELECT */
+
+.word-toolbar select {
+
+    height: 29px;
+
+    border: 1px solid #999;
+
+    background: white;
+
+    font-size: 13px;
+
+}
+
+
+.font-select {
+
+    width: 145px;
+
+}
+
+
+.size-select {
+
+    width: 65px;
+
+}
+
+
+/* TOOL BUTTON */
+
+.word-btn {
+
+    height: 29px;
+
+    min-width: 30px;
+
+    padding: 3px 8px;
+
+    border: 1px solid #aaa;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    border-radius: 2px;
+
+}
+
+
+.word-btn:hover {
+
+    background: #e5e5e5;
+
+}
+
+
+.word-btn.active {
+
+    background: #c9dff5;
+
+    border-color: #0b5cab;
+
+}
+
+
+/* =====================================================
+   BOTTOM BAR
+===================================================== */
+
+.bottom-bar {
+
+    height: 50px;
+
+    background: #f4f4f4;
+
+    border-top: 1px solid #aeb5bc;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 6px 10px;
+
+}
+
+
+.tools {
+
+    display: flex;
+
+    gap: 5px;
+
+}
+
+
+.tool-button {
+
+    background: white;
+
+    border: 1px solid #888;
+
+    border-radius: 3px;
+
+    padding: 7px 12px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+}
+
+
+.tool-button:hover {
+
+    background: #e4e4e4;
+
+}
+
+
+.submit-button {
+
+    background: #0b5cab;
+
+    color: white;
+
+    border-color: #0b5cab;
+
+    font-weight: bold;
+
+}
+
+
+.submit-button:hover {
+
+    background: #084b8c;
+
+}
+
+
+.status {
+
+    font-size: 12px;
+
+    color: #555;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:800px) {
+
+    html,
+    body {
+
+        overflow: auto;
+
+    }
+
+
+    .exam-header {
+
+        height: auto;
+
+        flex-direction: column;
+
+        gap: 7px;
+
+    }
+
+
+    .exam-info {
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+    }
+
+
+    .exam-container {
+
+        height: auto;
+
+    }
+
+
+    .exam-panels {
+
+        grid-template-columns: 1fr;
+
+        height: auto;
+
+    }
+
+
+    .panel {
+
+        height: 500px;
+
+    }
+
+
+    .word-page,
+    .question-page,
+    .typing-page {
+
+        width: 8.27in;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -390,99 +712,108 @@
 <body>
 
 
-    <!-- ==============================
-         HEADER
-    ============================== -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-    <header class="exam-header">
-
-
-        <div class="exam-title">
-
-            GCC TBC TYPING EXAM
-
-        </div>
+<header class="exam-header">
 
 
-        <div class="exam-info">
+    <div class="exam-title">
+
+        GCC-TBC COMPUTER TYPING EXAM
+
+    </div>
 
 
-            <div class="info-box">
-
-                भाषा:
-
-                <span id="languageDisplay">---</span>
-
-            </div>
+    <div class="exam-info">
 
 
-            <div class="info-box">
+        <div class="info-box">
 
-                Speed:
-
-                <span id="speedDisplay">---</span>
-
-                WPM
-
-            </div>
-
-
-            <div
-
-                class="timer"
-
-                id="timer"
-
-            >
-
-                07:00
-
-            </div>
-
+            भाषा:
+            <span id="languageDisplay">---</span>
 
         </div>
 
 
-    </header>
+        <div class="info-box">
+
+            Speed:
+            <span id="speedDisplay">---</span>
+            WPM
+
+        </div>
+
+
+        <div
+            class="timer"
+            id="timer"
+        >
+
+            07:00
+
+        </div>
+
+
+    </div>
+
+</header>
 
 
 
-    <!-- ==============================
-         EXAM PANELS
-    ============================== -->
+<!-- =====================================================
+     EXAM
+===================================================== -->
 
-    <main class="exam-container">
-
-
-        <div class="exam-panels">
+<main class="exam-container">
 
 
-            <!-- LEFT SIDE -->
-
-            <section class="panel">
+<div class="exam-panels">
 
 
-                <div class="panel-title">
+<!-- =====================================================
+     QUESTION SIDE
+===================================================== -->
 
-                    Paragraph
+<section class="panel">
 
-                </div>
+
+    <div class="panel-title">
+
+        Question Paper
+
+    </div>
+
+
+    <div class="word-workspace">
+
+
+        <div
+            class="horizontal-ruler"
+            id="questionHorizontalRuler"
+        ></div>
+
+
+        <div
+            class="vertical-ruler"
+            id="questionVerticalRuler"
+        ></div>
+
+
+        <div class="word-page">
+
+
+            <div class="question-page">
 
 
                 <div
-
                     id="paragraph"
-
-                    class="paragraph-area"
-
+                    class="question-text"
                     oncopy="return false"
-
                     oncut="return false"
-
                     onpaste="return false"
-
                     oncontextmenu="return false"
-
                 >
 
                     Paragraph Loading...
@@ -490,124 +821,8 @@
                 </div>
 
 
-            </section>
+            </div>
 
-
-
-            <!-- RIGHT SIDE -->
-
-            <section class="panel">
-
-
-                <div class="panel-title">
-
-                    Typing Area
-
-                </div>
-
-
-                <textarea
-
-                    id="typingArea"
-
-                    class="typing-area"
-
-                    spellcheck="false"
-
-                    autocomplete="off"
-
-                    autocorrect="off"
-
-                    autocapitalize="off"
-
-                    oncopy="return false"
-
-                    oncut="return false"
-
-                    onpaste="return false"
-
-                    oncontextmenu="return false"
-
-                ></textarea>
-
-
-            </section>
-
-
-        </div>
-
-
-    </main>
-
-
-
-    <!-- ==============================
-         BOTTOM BAR
-    ============================== -->
-
-    <div class="bottom-bar">
-
-
-        <div class="tools">
-
-<button
-    type="button"
-    class="tool-button submit-button"
-    onclick="submitExam()"
->
-    Submit Exam
-</button>
-            <button
-
-                type="button"
-
-                class="tool-button"
-
-                onclick="changeFontSize(1)"
-
-            >
-
-                Zoom +
-
-            </button>
-
-
-            <button
-
-                type="button"
-
-                class="tool-button"
-
-                onclick="changeFontSize(-1)"
-
-            >
-
-                Zoom -
-
-            </button>
-
-
-            <button
-
-                type="button"
-
-                class="tool-button"
-
-                onclick="goFullScreen()"
-
-            >
-
-                Full Screen
-
-            </button>
-
-
-        </div>
-
-
-        <div class="status">
-
-            Backspace: Allowed
 
         </div>
 
@@ -615,14 +830,657 @@
     </div>
 
 
+</section>
 
-    <!-- ==============================
-         JAVASCRIPT FILES
-    ============================== -->
 
-    <script src="paragraphs.js"></script>
 
-    <script src="exam.js"></script>
+<!-- =====================================================
+     TYPING SIDE
+===================================================== -->
+
+<section class="panel">
+
+
+    <div class="panel-title">
+
+        Answer Sheet
+
+    </div>
+
+
+    <!-- WORD TOOLBAR -->
+
+    <div class="word-toolbar">
+
+
+        <!-- FONT -->
+
+        <select
+            id="fontFamily"
+            class="font-select"
+            title="Font"
+        >
+
+            <option value="Nirmala UI">
+                Nirmala UI
+            </option>
+
+            <option value="Mangal">
+                Mangal
+            </option>
+
+            <option value="Arial">
+                Arial
+            </option>
+
+            <option value="Calibri">
+                Calibri
+            </option>
+
+            <option value="Times New Roman">
+                Times New Roman
+            </option>
+
+            <option value="Verdana">
+                Verdana
+            </option>
+
+        </select>
+
+
+        <!-- FONT SIZE -->
+
+        <select
+            id="fontSize"
+            class="size-select"
+            title="Font Size"
+        >
+
+            <option value="12">12</option>
+
+            <option value="14" selected>
+                14
+            </option>
+
+            <option value="16">16</option>
+
+            <option value="18">18</option>
+
+            <option value="20">20</option>
+
+            <option value="22">22</option>
+
+            <option value="24">24</option>
+
+        </select>
+
+
+        <!-- BOLD -->
+
+        <button
+            type="button"
+            class="word-btn"
+            id="boldBtn"
+            title="Bold"
+        >
+
+            <b>B</b>
+
+        </button>
+
+
+        <!-- ITALIC -->
+
+        <button
+            type="button"
+            class="word-btn"
+            id="italicBtn"
+            title="Italic"
+        >
+
+            <i>I</i>
+
+        </button>
+
+
+        <!-- UNDERLINE -->
+
+        <button
+            type="button"
+            class="word-btn"
+            id="underlineBtn"
+            title="Underline"
+        >
+
+            <u>U</u>
+
+        </button>
+
+
+        <!-- ALIGN -->
+
+        <button
+            type="button"
+            class="word-btn"
+            data-align="left"
+            title="Align Left"
+        >
+
+            ⬅
+
+        </button>
+
+
+        <button
+            type="button"
+            class="word-btn"
+            data-align="center"
+            title="Center"
+        >
+
+            ≡
+
+        </button>
+
+
+        <button
+            type="button"
+            class="word-btn"
+            data-align="right"
+            title="Align Right"
+        >
+
+            ➡
+
+        </button>
+
+
+        <button
+            type="button"
+            class="word-btn"
+            data-align="justify"
+            title="Justify"
+        >
+
+            ☰
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- WORD PAGE -->
+
+    <div class="word-workspace">
+
+
+        <div
+            class="horizontal-ruler"
+            id="typingHorizontalRuler"
+        ></div>
+
+
+        <div
+            class="vertical-ruler"
+            id="typingVerticalRuler"
+        ></div>
+
+
+        <div class="word-page">
+
+
+            <div class="typing-page">
+
+
+                <textarea
+                    id="typingArea"
+                    class="typing-area"
+                    spellcheck="false"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    oncopy="return false"
+                    oncut="return false"
+                    onpaste="return false"
+                    oncontextmenu="return false"
+                ></textarea>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+</div>
+
+</main>
+
+
+
+<!-- =====================================================
+     BOTTOM
+===================================================== -->
+
+<div class="bottom-bar">
+
+
+    <div class="tools">
+
+
+        <button
+            type="button"
+            class="tool-button submit-button"
+            onclick="submitExam()"
+        >
+
+            Submit Exam
+
+        </button>
+
+
+        <button
+            type="button"
+            class="tool-button"
+            onclick="changeFontSize(-1)"
+        >
+
+            Zoom -
+
+        </button>
+
+
+        <button
+            type="button"
+            class="tool-button"
+            onclick="changeFontSize(1)"
+        >
+
+            Zoom +
+
+        </button>
+
+
+        <button
+            type="button"
+            class="tool-button"
+            onclick="goFullScreen()"
+        >
+
+            Full Screen
+
+        </button>
+
+
+    </div>
+
+
+    <div class="status">
+
+        Backspace: Allowed
+        &nbsp; | &nbsp;
+        Copy/Paste: Disabled
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     EXTERNAL FILES
+===================================================== -->
+
+<script src="paragraphs.js"></script>
+
+<script src="exam.js"></script>
+
+
+
+<!-- =====================================================
+     WORD TOOLBAR SCRIPT
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const typingArea =
+            document.getElementById(
+                "typingArea"
+            );
+
+
+        const fontFamily =
+            document.getElementById(
+                "fontFamily"
+            );
+
+
+        const fontSize =
+            document.getElementById(
+                "fontSize"
+            );
+
+
+        const boldBtn =
+            document.getElementById(
+                "boldBtn"
+            );
+
+
+        const italicBtn =
+            document.getElementById(
+                "italicBtn"
+            );
+
+
+        const underlineBtn =
+            document.getElementById(
+                "underlineBtn"
+            );
+
+
+        /*
+            FONT
+        */
+
+        fontFamily.addEventListener(
+            "change",
+            function () {
+
+                typingArea.style.fontFamily =
+                    this.value;
+
+            }
+        );
+
+
+        /*
+            FONT SIZE
+        */
+
+        fontSize.addEventListener(
+            "change",
+            function () {
+
+                typingArea.style.fontSize =
+                    this.value + "px";
+
+            }
+        );
+
+
+        /*
+            BOLD
+        */
+
+        boldBtn.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typingArea.style.fontWeight ===
+                    "bold"
+                ) {
+
+                    typingArea.style.fontWeight =
+                        "normal";
+
+                    boldBtn.classList.remove(
+                        "active"
+                    );
+
+                }
+                else {
+
+                    typingArea.style.fontWeight =
+                        "bold";
+
+                    boldBtn.classList.add(
+                        "active"
+                    );
+
+                }
+
+                typingArea.focus();
+
+            }
+        );
+
+
+        /*
+            ITALIC
+        */
+
+        italicBtn.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typingArea.style.fontStyle ===
+                    "italic"
+                ) {
+
+                    typingArea.style.fontStyle =
+                        "normal";
+
+                    italicBtn.classList.remove(
+                        "active"
+                    );
+
+                }
+                else {
+
+                    typingArea.style.fontStyle =
+                        "italic";
+
+                    italicBtn.classList.add(
+                        "active"
+                    );
+
+                }
+
+                typingArea.focus();
+
+            }
+        );
+
+
+        /*
+            UNDERLINE
+        */
+
+        underlineBtn.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typingArea.style.textDecoration ===
+                    "underline"
+                ) {
+
+                    typingArea.style.textDecoration =
+                        "none";
+
+                    underlineBtn.classList.remove(
+                        "active"
+                    );
+
+                }
+                else {
+
+                    typingArea.style.textDecoration =
+                        "underline";
+
+                    underlineBtn.classList.add(
+                        "active"
+                    );
+
+                }
+
+                typingArea.focus();
+
+            }
+        );
+
+
+        /*
+            ALIGNMENT
+        */
+
+        document
+            .querySelectorAll(
+                "[data-align]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            typingArea.style.textAlign =
+                                this.dataset.align;
+
+                            typingArea.focus();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /*
+            WORD STYLE TAB
+
+            TAB = approximately
+            0.5 inch
+        */
+
+        typingArea.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key !== "Tab"
+                ) {
+
+                    return;
+
+                }
+
+
+                event.preventDefault();
+
+
+                const start =
+                    typingArea.selectionStart;
+
+                const end =
+                    typingArea.selectionEnd;
+
+
+                const before =
+                    typingArea.value.substring(
+                        0,
+                        start
+                    );
+
+
+                const after =
+                    typingArea.value.substring(
+                        end
+                    );
+
+
+                typingArea.value =
+                    before +
+                    "\t" +
+                    after;
+
+
+                typingArea.selectionStart =
+                    start + 1;
+
+
+                typingArea.selectionEnd =
+                    start + 1;
+
+            }
+        );
+
+
+    }
+);
+
+
+/*
+    ZOOM
+*/
+
+function changeFontSize(amount) {
+
+    const typingArea =
+        document.getElementById(
+            "typingArea"
+        );
+
+
+    const current =
+        parseInt(
+            window.getComputedStyle(
+                typingArea
+            ).fontSize
+        );
+
+
+    const next =
+        Math.max(
+            10,
+            Math.min(
+                30,
+                current + amount
+            )
+        );
+
+
+    typingArea.style.fontSize =
+        next + "px";
+
+}
+
+
+/*
+    FULL SCREEN
+*/
+
+function goFullScreen() {
+
+    if (
+        document.documentElement.requestFullscreen
+    ) {
+
+        document.documentElement.requestFullscreen();
+
+    }
+
+}
+
+</script>
 
 
 </body>
